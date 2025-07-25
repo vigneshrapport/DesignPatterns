@@ -1,4 +1,5 @@
-﻿using DesignPatterns.FactoryPattern;
+﻿using DesignPatterns.AbstractFactoryPattern;
+using DesignPatterns.FactoryPattern;
 using DesignPatterns.RepositoryPattern;
 using DesignPatterns.SingletonPattern;
 using DesignPatterns.UnitofWorkPattern;
@@ -85,8 +86,21 @@ namespace DesignPatterns
                 unitOfWork.OrderRepository.Add(new Order { Id = 1, CustomerName = "XYZ", OrderDate = new DateTime(), TotalAmount = 100 });
                 // Commit changes
                 unitOfWork.Commit();
-                Console.ReadLine();
                 #endregion
+
+                #region Abstract Factory Pattern
+
+                IRepositoryFactory inMemoryRepositoryFactory = new InMemoryRepositoryFactory();
+                //IRepositoryFactory sqlRepositoryFactory = new SqlRepositoryFactory();
+                IUnitOfWork abstractFactoryUnitOfWork = new AbstractFactoryUnitOfWork(inMemoryRepositoryFactory);
+                // Using the Unit of Work to manage repositories
+                abstractFactoryUnitOfWork.ProductRepository.Add(new Product { Id = 3, Name = "Tablet", Price = 500.00m });
+                abstractFactoryUnitOfWork.OrderRepository.Add(new Order { Id = 1, CustomerName = "XYZ", OrderDate = new DateTime(), TotalAmount = 100 });
+                // Commit changes
+                abstractFactoryUnitOfWork.Commit();
+                #endregion
+
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
