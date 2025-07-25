@@ -1,6 +1,7 @@
 ﻿using DesignPatterns.FactoryPattern;
 using DesignPatterns.RepositoryPattern;
 using DesignPatterns.SingletonPattern;
+using DesignPatterns.UnitofWorkPattern;
 
 namespace DesignPatterns
 {
@@ -77,7 +78,15 @@ namespace DesignPatterns
                 Product product = productRepository.GetById(2);
                 #endregion
 
+                #region Unit of Work Pattern
+                IUnitOfWork unitOfWork = new UnitOfWork();
+                // Using the Unit of Work to manage repositories
+                unitOfWork.ProductRepository.Add(new Product { Id = 3, Name = "Tablet", Price = 500.00m });
+                unitOfWork.OrderRepository.Add(new Order { Id = 1, CustomerName = "XYZ", OrderDate = new DateTime(), TotalAmount = 100 });
+                // Commit changes
+                unitOfWork.Commit();
                 Console.ReadLine();
+                #endregion
             }
             catch (Exception ex)
             {
